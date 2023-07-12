@@ -11,7 +11,7 @@
         <input type="submit" value="Моя страница">
     </form>
 
-    <form action="/user/friends/" method="get">
+    <form action="/friend/all/" method="get">
         <input type="submit" value="Друзья">
     </form>
 
@@ -31,13 +31,13 @@
     </#if>
 </div>
 <hr>
-<form action="/user/friends/" method="get">
+<form action="/friend/all/" method="get">
     <input type="submit" value="Друзья">
 </form>
-<form action="/user/subscriptions/" method="get">
+<form action="/friend/subscriptions/" method="get">
     <input type="submit" value="Отправленные заявки">
 </form>
-<form action="/user/subscribers/" method="get">
+<form action="/friend/subscribers/" method="get">
     <input type="submit" value="Подписчики">
 </form>
 <hr>

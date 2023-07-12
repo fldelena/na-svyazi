@@ -80,6 +80,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "subscriber_id")
     )
     private List<User> subscribers = new ArrayList<>();
+
+    //unidirectional
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "to_user_id")
+    private List<Invite> invites = new ArrayList<>();
     private LocalDateTime localDateTime;
 
     @PrePersist
@@ -89,16 +94,22 @@ public class User implements UserDetails {
 
     public void addFriend(User user) {
         if (this.subscribers.contains(user)) {
+            //меня добавляют
             this.subscribers.remove(user);
         } else {
+            //я добавляю
             user.getSubscribers().add(this);
+            user.getInvites().add(new Invite(this));
         }
         this.friends.add(user);
     }
+
     public void deleteFriend(User user) {
         if(user.getFriends().contains(this)){
+            //я первый удаляю
             this.subscribers.add(user);
         }else{
+            //меня уже удалили
             user.getSubscribers().remove(this);
         }
         this.friends.remove(user);

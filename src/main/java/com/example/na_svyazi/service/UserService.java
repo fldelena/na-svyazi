@@ -18,6 +18,10 @@ public interface UserService {
 
     void addFriendToUser(Long id, User profile);
 
+    void addFriendToUserByInvite(Long id, User profile);
+
+    void unfriend(Long id, User profile);
+
     void deleteFriendToUser(Long id, User profile);
 
     List<User> showFriendList(User profile);

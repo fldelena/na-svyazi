@@ -1,7 +1,9 @@
 package com.example.na_svyazi.service.impl;
 
+import com.example.na_svyazi.dao.InviteRepository;
 import com.example.na_svyazi.dao.UserRepository;
 import com.example.na_svyazi.entity.Image;
+import com.example.na_svyazi.entity.Invite;
 import com.example.na_svyazi.service.UserService;
 import com.example.na_svyazi.entity.User;
 import com.example.na_svyazi.entity.enums.Role;
@@ -20,6 +22,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final InviteRepository inviteRepository;
     private final PasswordEncoder passwordEncoder;
 
     //Сделать тут выбрасывание ошибки, если пользовательу уже существует
@@ -69,14 +72,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addFriendToUser(Long id, User profile) {
+        System.out.println("2");
         User user = userRepository.findById(id).orElseThrow();
         profile.addFriend(user);
+        //ниже проблема
+        userRepository.save(profile);
+        System.out.println("5");
+    }
+
+    @Override
+    public void addFriendToUserByInvite(Long id, User profile) {
+        Invite invite = inviteRepository.findById(id).orElseThrow();
+        User user = invite.getFromUser();
+        profile.addFriend(user);
+        profile.getInvites().remove(invite);
+        inviteRepository.delete(invite);
+        userRepository.save(profile);
+    }
+
+    @Override
+    public void unfriend(Long id, User profile) {
+        Invite invite = inviteRepository.findById(id).orElseThrow();
+        profile.getInvites().remove(invite);
+        inviteRepository.delete(invite);
         userRepository.save(profile);
     }
 
     @Override
     public void deleteFriendToUser(Long id, User profile) {
         User user = userRepository.findById(id).orElseThrow();
+        for (Invite invite : user.getInvites()) {
+            if (invite.getFromUser() == profile) {
+                user.getInvites().remove(invite);
+                inviteRepository.delete(invite);
+                break;
+            }
+        }
         profile.deleteFriend(user);
         userRepository.save(profile);
     }

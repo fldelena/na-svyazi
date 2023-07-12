@@ -11,7 +11,7 @@
         <input type="submit" value="Моя страница">
     </form>
 
-    <form action="/user/friends/" method="get">
+    <form action="/friend/all/" method="get">
         <input type="submit" value="Друзья">
     </form>
 
@@ -31,23 +31,47 @@
     </#if>
 </div>
 <hr>
-<form action="/user/friends/" method="get">
+<form action="/friend/all/" method="get">
     <input type="submit" value="Друзья">
 </form>
-<form action="/user/subscriptions/" method="get">
+<form action="/friend/subscriptions/" method="get">
     <input type="submit" value="Отправленные заявки">
 </form>
-<form action="/user/subscribers/" method="get">
+<form action="/friend/subscribers/" method="get">
     <input type="submit" value="Подписчики">
 </form>
 <hr>
-<#list friends as friend>
-<#--    Добавить фотографию-->
-    <div>
-        <a href="/user/info/${friend.id}">${friend.name}</a>
-    </div>
-    <br><br>
-</#list>
+<div>
+    <#list invites as invite>
+        <div>
+            <a href="/user/info/${invite.fromUser.id}">${invite.fromUser.name}</a>
+        </div>
+        <div>
+            <form action="/friend/add/${invite.id}" method="get">
+                <input type="submit" value="Добавить в друзья">
+            </form>
+            <form action="/friend/unfriend/${invite.id}" method="get">
+                <input type="submit" value="Оставить в подписчиках">
+            </form>
+        </div>
+    </#list>
+</div>
+<hr>
+<div>
+    <#list friends as friend>
+    <#--    Добавить фотографию-->
+        <div>
+            <a href="/user/info/${friend.id}">${friend.name}</a>
+        </div>
+        <div>
+            <form action="/friend/delete/${friend.id}">
+                <input type="submit" value="Удалить из друзей">
+            </form>
+        </div>
+        <br><br>
+    </#list>
+</div>
+
 
 </body>
 </html>

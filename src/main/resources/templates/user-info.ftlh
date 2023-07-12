@@ -12,7 +12,7 @@
         <input type="submit" value="Моя страница">
     </form>
 
-    <form action="/user/friends/" method="get">
+    <form action="/friend/all/" method="get">
         <input type="submit" value="Друзья">
     </form>
 

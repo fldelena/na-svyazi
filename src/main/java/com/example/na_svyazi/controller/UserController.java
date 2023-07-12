@@ -54,36 +54,4 @@ public class UserController {
         return "redirect:/user/info/" + id;
     }
 
-
-    @GetMapping("/friends/")
-    public String friends(Principal principal, Model model){
-        User profile = userService.getUserByPrincipal(principal);
-        List<User> friends = userService.showFriendList(profile);
-        model.addAttribute("friends", friends);
-        model.addAttribute("profile", profile);
-        return"friends";
-    }
-    //Подписки
-    @GetMapping("/subscriptions/")
-    public String subscriptions(Principal principal, Model model){
-        User profile = userService.getUserByPrincipal(principal);
-        List<User> subscriptions = userService.showSubscriptionList(profile);
-        model.addAttribute("subscriptions", subscriptions);
-        model.addAttribute("profile", profile);
-        return "subscriptions";
-    }
-    //Подписчики
-    @GetMapping("/subscribers/")
-    public String subscribers(Principal principal, Model model){
-        User profile = userService.getUserByPrincipal(principal);
-        List<User> subscribers = userService.showSubscriberList(profile);
-        model.addAttribute("subscribers", subscribers);
-        model.addAttribute("profile", profile);
-        return "subscribers";
-    }
-
-
-
-
-
 }
