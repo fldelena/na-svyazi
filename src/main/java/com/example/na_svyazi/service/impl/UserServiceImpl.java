@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final InviteRepository inviteRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //Сделать тут выбрасывание ошибки, если пользовательу уже существует
+    //Сделать тут выбрасывание ошибки, если пользователь уже существует
     //И если не удалось получить изображение
     @Override
     public boolean createUser(MultipartFile file, User user) {
@@ -72,12 +72,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addFriendToUser(Long id, User profile) {
-        System.out.println("2");
         User user = userRepository.findById(id).orElseThrow();
         profile.addFriend(user);
-        //ниже проблема
         userRepository.save(profile);
-        System.out.println("5");
     }
 
     @Override
@@ -129,6 +126,4 @@ public class UserServiceImpl implements UserService {
     public List<User> showSubscriberList(User profile) {
         return profile.getSubscribers();
     }
-
-
 }
